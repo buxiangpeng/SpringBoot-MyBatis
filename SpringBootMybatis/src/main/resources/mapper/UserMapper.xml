@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.UserDao" >
+
+  <resultMap id="BaseResultMap" type="com.example.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="OTHER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, info, `name`, `number`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from `user`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `user`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.model.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into `user` (info, `name`, `number`
+      )
+    values (#{info,jdbcType=OTHER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.model.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into `user`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      info,
+      `name`,
+      `number`,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{info,jdbcType=OTHER},
+      #{name,jdbcType=VARCHAR},
+      #{number,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.model.User" >
+    update `user`
+    <set >
+      <if test="info != null" >
+        info = #{info,jdbcType=OTHER},
+      </if>
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        `number` = #{number,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.model.User" >
+    update `user`
+    set info = #{info,jdbcType=OTHER},
+      `name` = #{name,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findAll"  resultMap="BaseResultMap">
+  	select * from user
+  </select>
+  
+</mapper>
